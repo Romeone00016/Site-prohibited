@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le site te vole ton identité</title>
+    <style>
+        body<p>Visitez notre site : <a href="https://endsecrete.com" target="_blank">End Secrete</a></p>
+ {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            transition: background-color 0.5s;
+        }
+        #container {
+            text-align: center;
+        }
+        #game {
+            display: none;
+        }
+        #final-message {
+            display: none;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        #desktop {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('desktop_background.jpg') no-repeat center center;
+            background-size: cover;
+        }
+        #subliminal-image {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: url('https://images-eu.ssl-images-amazon.com/images/I/81fezAtp+L._AC_UL600_SR600,600_.jpg') no-repeat center center;
+            background-size: cover;
+            z-index: 1000;
+        }
+        .scary-effect {
+            background-color: red !important;
+            color: white !important;
+            animation: glitch 0.3s infinite;
+        }
+        @keyframes glitch {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-5px, -5px); }
+            40% { transform: translate(5px, 5px); }
+            60% { transform: translate(-5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0, 0); }
+        }
+        #final-text {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 1001;
+            white-space: pre-wrap;
+        }
+        #answer-section {
+            display: none;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 1002;
+        }
+        #answer-input {
+            padding: 10px;
+            font-size: 16px;
+        }
+        #answer-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        #result-message {
+            margin-top: 10px;
+            font-size: 18px;
+            color: white;
+        }
+        #calm-page {
+            display: none;
+            background-color: black;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="welcome">
+            <h1>Bienvenue</h1>
+            <p>Veuillez entrer votre pseudo :</p>
+            <input type="text" id="pseudo" placeholder="Pseudo">
+            <button onclick="startGame()">Commencer</button>
+        </div>
+        <div id="game">
+            <p id="game-message"></p>
+        </div>
+        <div id="final-message">Tu es moi. Je suis toi.</div>
+    </div>
+    <div id="desktop"></div>
+    <div id="subliminal-image"></div>
+    <div id="final-text">
+        「⧫⊷𝔑𝔬𝔱 𝔴𝔥𝔞𝔱 𝔶𝔬𝔲 𝔱𝔥𝔦𝔫𝔨... ⊶⧫」<br><br>
+        ᎶᏞᏆᏟᎻ ᎻᏆᎠᎬᏚ ᎢᎻᎬ ᎢᎡᏌᎢᎻ<br>
+        ⟟⏁'⟟ ⟟⌇ ⏚⍜⌿⟒ ⏁⍜ ⍙⟒⟊⟒ ⌇⍀⟟☌⟒⌇<br><br>
+        A hand with no fingers, yet it points the way.<br>
+        I vanish when you close your eyes, yet I never leave.<br>
+        I whisper yet have no voice. What am I?
+    </div>
+    <div id="answer-section">
+        <input type="text" id="answer-input" placeholder="Entrez votre réponse">
+        <button id="answer-button" onclick="checkAnswer()">Soumettre</button>
+        <div id="result-message"></div>
+    </div>
+    <div id="calm-page">
+        <p><b>Qu’est-ce que ça te fait...</b><br><br>
+        D’avoir fouillé, analysé, retourné chaque indice... pour arriver ici.<br>
+        Juste une page noire. Juste ce texte à l’écran.<br><br>
+        Tu as passé combien de temps ?<br>
+        Des heures ? Des jours ? Peut-être plus...<br>
+        Et pour quoi, au final ?<br><br>
+        Ça valait le coup ?<br>
+        Tout ce temps investi, tous ces efforts... pour ça ?<br><br>
+        Pendant que tu étais ici, qu’est-ce que tu as ignoré ?<br>
+        Des amis qui attendaient un message ? Une famille qui voulait juste te parler ?<br>
+        Peut-être que tu aurais dû être ailleurs... peut-être que tu as raté quelque chose d'important.<br><br>
+        Et aussi... tu peux repenser un peu au temps que tu as perdu.<br>
+        Peut-être que quelqu'un avait besoin de toi... mais toi, tu as préféré rester ici.<br>
+        Tu as choisi cette ARG plutôt que d'aider, plutôt que d'être là pour eux.<br><br>
+        Et toi... qui es-tu vraiment, quand personne ne te regarde ?<br>
+        Quand il n’y a plus de récompense, plus d’objectif clair... que reste-t-il ?<br><br>
+        Tu penses que c’était ton choix de continuer ? Ou est-ce que quelqu’un t’a guidé jusqu’ici, sans que tu le saches ?<br><br>
+        Pourquoi tu t’accroches autant ?<br>
+        Pourquoi cette sensation de vide quand les réponses n’arrivent pas ?<br><br>
+        Peut-être que tu te trompes. Peut-être que ce n’était jamais une question de réponses.<br>
+        Peut-être que tu n'as jamais été le joueur... mais simplement une pièce de plus dans un jeu que tu ne comprends pas encore.<br><br>
+        ...Et si tu avais fait tout ça pour rien ?<br>
+        ...Et si tu avais oublié quelque chose... ou quelqu'un ?<br>
+        ...Tu commences à comprendre, n’est-ce pas ?<br><br>
+        <b>Écris-moi ce que tu ressens. Ou alors ton humeur... dis-moi comment tu vas. Si ça ne va pas, je veux le savoir.</b><br><br>
+        <b>- AUCUN OBSTACLE</b></p>
+        <textarea id="feedback" rows="4" cols="50" placeholder="Exprimez-vous ici..."></textarea><br>
+        <button onclick="submitFeedback()">Envoyer</button>
+    </div>
+    <script>
+        const names = [
+            "Adrien", "Alexandre", "Antoine", "Arthur", "Aymeric", "Baptiste", "Benjamin", "Bryan",
+            "Cédric", "Charles", "Clément", "Corentin", "Damien", "David", "Dylan", "Édouard", "Élias",
+            "Émile", "Enzo", "Ethan", "Fabien", "Félix", "Florian", "Francis", "Gabriel", "Gaël",
+            "Guillaume", "Hugo", "Isaac", "Jacques", "Jérémy", "Jérôme", "Jonathan", "Jordan", "Joseph",
+            "Jules", "Julien", "Kevin", "Kilian", "Laurent", "Léo", "Lucas", "Louis", "Marc", "Martin",
+            "Mathieu", "Maxence", "Maxime", "Mehdi", "Michel", "Nathan", "Nicolas", "Olivier", "Pascal",
+            "Paul", "Pierre", "Quentin", "Raphaël", "Romain", "Théo", "Thibault", "Thomas", "Timothée",
+            "Valentin", "Victor", "Vincent", "Xavier", "Yann", "Yohan", "Zacharie", "Adèle", "Agathe",
+            "Alice", "Amandine", "Amélie", "Anaïs", "Angélique", "Anna", "Anne", "Aurélie", "Audrey",
+            "Aurore", "Béatrice", "Camille", "Carla", "Caroline", "Cassandra", "Catherine", "Charlotte",
+            "Chloé", "Christelle", "Cindy", "Claire", "Clara", "Clémence", "Coralie", "Delphine", "Diane",
+            "Éléonore", "Élise", "Élodie", "Émilie", "Emma", "Estelle", "Eva", "Fanny", "Florence", "Gaëlle",
+            "Géraldine", "Hélène", "Inès", "Isabelle", "Jade", "Jeanne", "Jennifer", "Jessica", "Julie",
+            "Justine", "Karine", "Laura", "Laurie", "Léa", "Liliane", "Lisa", "Lucie", "Manon", "Marie",
+            "Mélanie", "Nadège", "Nathalie", "Abel", "Achille", "Adam", "Adonis", "Albin", "Aloïs", "Amaury",
+            "Anatole", "Anselme", "Archibald", "Aristide", "Armand", "Auguste", "Aurélien", "Basile", "Bastien",
+            "Blaise", "Brice", "César", "Côme", "Darius", "Dorian", "Edgard", "Eustache", "Fernand", "Firmin",
+            "Gaspard", "Gaston", "Grégoire", "Hector", "Honoré", "Isidore", "Jules", "Lazare", "Léon", "Lionel",
+            "Lucien", "Marcel", "Maurice", "Octave", "Oscar", "Philibert", "Prosper", "Raoul", "Raymond",
+            "Régis", "Rémi", "Séraphin", "Simon", "Sylvain", "Théodore", "Ulysse", "Victorien", "Wilfried",
+            "Zéphyr", "Abigaël", "Adèle", "Alizée", "Anastasia", "Andromaque", "Angéline", "Antoinette",
+            "Apolline", "Aurore", "Axelle", "Bérénice", "Blandine", "Capucine", "Cassandre", "Céleste",
+            "Cléophée", "Constance", "Domitille", "Eglantine", "Eulalie", "Faustine", "Flavie", "Garance",
+            "Gisèle", "Hortense", "Isabeau", "Joséphine", "Léonie", "Madeleine", "Margaux", "Margot",
+            "Maëlys", "Mathilde", "Noémie", "Ombeline", "Paloma", "Philomène", "Priscille", "Quitterie",
+            "Roxane", "Salomé", "Solène", "Thaïs", "Violette", "Yolande"
+        ];
+
+        const glitchCharacters = ['@', '#', '$', '%', '&', '*', '!'];
+
+        function generateGlitchedPhoneNumber() {
+            let glitchedNumber = '';
+            for (let i = 0; i < 10; i++) {
+                glitchedNumber += glitchCharacters[Math.floor(Math.random() * glitchCharacters.length)];
+            }
+            return glitchedNumber;
+        }
+
+        let currentStep = 0;
+
+        function levenshtein(a, b) {
+            const an = a ? a.length : 0;
+            const bn = b ? b.length : 0;
+            if (an === 0) return bn;
+            if (bn === 0) return an;
+            const matrix = Array(an + 1).fill(null).map(() => Array(bn + 1).fill(null));
+            for (let i = 0; i <= an; i += 1) {
+                matrix[i][0] = i;
+            }
+            for (let j = 0; j <= bn; j += 1) {
+                matrix[0][j] = j;
+            }
+            for (let i = 0; i < an; i += 1) {
+                for (let j = 0; j < bn; j += 1) {
+                    const cost = a[i] === b[j] ? 0 : 1;
+                    matrix[i + 1][j + 1] = Math.min(
+                        matrix[i][j + 1] + 1, // deletion
+                        matrix[i + 1][j] + 1, // insertion
+                        matrix[i][j] + cost // substitution
+                    );
+                }
+            }
+            return matrix[an][bn];
+        }
+
+        function extractPersonalInfo(pseudo) {
+            let bestMatch = names[0];
+            let lowestDistance = levenshtein(pseudo, names[0]);
+
+            for (let i = 1; i < names.length; i++) {
+                const distance = levenshtein(pseudo, names[i]);
+                if (distance < lowestDistance) {
+                    lowestDistance = distance;
+                    bestMatch = names[i];
+                }
+            }
+
+            return {
+                name: bestMatch,
+                address: "41.40338, 2.17403",
+                phoneNumber: generateGlitchedPhoneNumber()
+            };
+        }
+
+        function startGame() {
+            const pseudo = document.getElementById('pseudo').value;
+            if (pseudo) {
+                const { name, address, phoneNumber } = extractPersonalInfo(pseudo);
+                document.getElementById('welcome').style.display = 'none';
+                document.getElementById('game').style.display = 'block';
+                nextStep(pseudo, name, address, phoneNumber);
+            } else {
+                alert('Veuillez entrer un pseudo.');
+            }
+        }
+
+        function nextStep(pseudo, name, address, phoneNumber) {
+            let message = '';
+            switch (currentStep) {
+                case 0:
+                    message = `Bienvenue, ${pseudo}!`;
+                    break;
+                case 1:
+                    message = `Tu t'appelles vraiment ${name}, n'est-ce pas?`;
+                    break;
+                case 2:
+                    message = `Nous savons que tu habites ici : ${address}`;
+                    break;
+                case 3:
+                    message = `Et ton numéro de téléphone est ${phoneNumber}`;
+                    break;
+                case 4:
+                    endGame();
+                    return;
+            }
+            document.getElementById('game-message').innerText = message;
+            currentStep++;
+            setTimeout(() => nextStep(pseudo, name, address, phoneNumber), 3000);
+        }
+
+        function endGame() {
+            document.getElementById('game').style.display = 'none';
+            document.getElementById('final-message').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('final-message').style.display = 'none';
+                showSubliminalImage();
+                setTimeout(() => {
+                    document.body.classList.add('scary-effect');
+                    document.getElementById('final-text').style.display = 'block';
+                    document.getElementById('answer-section').style.display = 'block';
+                }, 50);
+            }, 5000);
+        }
+
+        function showSubliminalImage() {
+            const img = document.getElementById('subliminal-image');
+            img.style.display = 'block';
+            setTimeout(() => {
+                img.style.display = 'none';
+            }, 50);
+        }
+
+        function checkAnswer() {
+            const answer = document.getElementById('answer-input').value.toLowerCase();
+            const resultMessage = document.getElementById('result-message');
+            if (answer === 'shadow') {
+                resultMessage.innerText = 'Correct! Vous avez trouvé la réponse.';
+                document.body.classList.remove('scary-effect');
+                document.getElementById('final-text').style.display = 'none';
+                document.getElementById('answer-section').style.display = 'none';
+                document.getElementById('calm-page').style.display = 'block';
+            } else {
+                resultMessage.innerText = 'Incorrect. Essayez encore.';
+            }
+        }
+
+        function submitFeedback() {
+            const feedback = document.getElementById('feedback').value;
+            if (feedback) {
+                alert('Merci pour votre retour.');
+            } else {
+                alert('Merci de remplir le champ de texte avant d\'envoyer.');
+            }
+        }
+    </script>
+</body>
+</html>
